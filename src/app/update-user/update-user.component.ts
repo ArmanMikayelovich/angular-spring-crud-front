@@ -12,13 +12,14 @@ export class UpdateUserComponent implements OnInit {
   submitted = false;
   id: bigint;
   user: User;
+  haveError = false;
 
   constructor(private route: ActivatedRoute, private userService: UserService, private router: Router) {
   }
 
   ngOnInit() {
     this.user = new User();
-    this.id = this.route.snapshot.params['id'];
+    this.id = this.route.snapshot.params.id;
 
     this.userService.getUser(this.id)
       .subscribe(data => {
@@ -28,14 +29,17 @@ export class UpdateUserComponent implements OnInit {
   }
 
   updateUser() {
+
     this.userService.updateUser(this.id, this.user)
-      .subscribe(data => console.log(data), error => console.log(error));
-    this.user = new User();
-    this.gotoList();
+      .subscribe(() => {
+          this.gotoList();
+        },
+        error => {
+          this.haveError = true;
+        });
   }
 
   onSubmit() {
-    this.submitted = true;
     this.updateUser();
   }
 

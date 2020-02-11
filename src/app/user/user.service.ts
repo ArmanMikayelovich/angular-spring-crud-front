@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
 import {User} from '../User';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private baseUrl = 'http://localhost:8080/api/user/';
+  private baseUrl = 'https://ng-sb-back-end.herokuapp.com/api/user/';
 
   constructor(private httpClient: HttpClient) {
   }
@@ -31,4 +31,6 @@ export class UserService {
   createUser(user: User): Observable<any> {
     return this.httpClient.post(`${this.baseUrl}`, user);
   }
+
+
 }
